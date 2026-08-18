@@ -244,10 +244,11 @@
     eventName: "IEEE CIS 2026 [SSN] — Team Selection",
     tagline: "Your first step into IEEE CIS starts here.",
     registrationFormUrl: "https://forms.gle/TyuuWPtu5qXjkBf27",
-    // Fixed countdown target: 10:00 AM on August 17 (nearest upcoming occurrence)
+    // Fixed countdown target: 10:00 PM IST on August 18, 2026
+    targetYear: 2026,
     targetMonth: 8,   // August
-    targetDay: 17,
-    targetHour: 10,
+    targetDay: 18,
+    targetHour: 22,
     targetMinute: 0,
   };
 
@@ -260,22 +261,18 @@
   document.getElementById("year").textContent = new Date().getFullYear();
 
   // ============ COUNTDOWN ============
-  function getNextTargetDate() {
-    const now = new Date();
-    let target = new Date(now.getFullYear(), CONFIG.targetMonth - 1, CONFIG.targetDay, CONFIG.targetHour, CONFIG.targetMinute, 0, 0);
-    if (target <= now) {
-      target = new Date(now.getFullYear() + 1, CONFIG.targetMonth - 1, CONFIG.targetDay, CONFIG.targetHour, CONFIG.targetMinute, 0, 0);
-    }
-    return target;
+  function getTargetDate() {
+    // Explicitly use IST (UTC+05:30), regardless of the visitor's timezone.
+    return new Date("2026-08-18T22:00:00+05:30");
   }
 
-  const targetDate = getNextTargetDate();
+  const targetDate = getTargetDate();
 
   const targetLabel = document.getElementById("countdown-target-label");
   targetLabel.textContent =
     "Counting down to " +
     targetDate.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" }) +
-    ", 10:00 AM";
+    ", 10:00 PM IST";
 
   const daysEl = document.getElementById("days");
   const hoursEl = document.getElementById("hours");
@@ -296,8 +293,16 @@
 
     if (diff <= 0) {
       clearInterval(intervalId);
+
+      // Keep the countdown at exactly 00:00:00:00 after the deadline.
+      daysEl.textContent = "00";
+      hoursEl.textContent = "00";
+      minutesEl.textContent = "00";
+      secondsEl.textContent = "00";
+
       countdownEl.classList.add("hidden");
       targetLabel.classList.add("hidden");
+      liveMessageEl.textContent = "Registrations Closed";
       liveMessageEl.classList.remove("hidden");
       return;
     }
