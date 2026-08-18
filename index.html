@@ -165,7 +165,7 @@
 
     <div id="live-message" class="hidden">
       <p class="font-display font-bold text-4xl sm:text-6xl text-transparent bg-clip-text bg-gradient-to-r from-accent2 to-gold">
-        We're Live! 🎉
+        Registrations Closed
       </p>
     </div>
   </div>
@@ -184,7 +184,7 @@
   <div class="max-w-3xl mx-auto glass rounded-3xl px-6 sm:px-14 py-14 text-center shadow-glow">
     <h2 class="font-display font-bold text-3xl sm:text-4xl text-bone">Be Part of the Team</h2>
     <p class="mt-4 text-fog text-base sm:text-lg max-w-xl mx-auto">
-      Submit your first contribution and get ready for a short 5-minute discussion on 16th - 17th August 2026. Follow instructions in Gform.
+      Submit your first contribution and get ready for a short 5-minute discussion on 18th August 2026. Follow instructions in Gform.
     </p>
     <a id="register-btn" href="#" target="_blank" rel="noopener noreferrer"
        aria-label="Fill the registration form (opens in a new tab)"
@@ -211,7 +211,7 @@
         <span class="text-2xl" aria-hidden="true">🕕</span>
         <div>
           <p class="text-xs uppercase tracking-wider text-fog">Deadline Time</p>
-          <p class="font-display font-semibold text-lg text-bone">10:00 pM</p>
+          <p class="font-display font-semibold text-lg text-bone">10:00 PM</p>
         </div>
       </div>
       <div class="glass rounded-2xl p-6 flex items-start gap-4">
@@ -244,8 +244,7 @@
     eventName: "IEEE CIS 2026 [SSN] — Team Selection",
     tagline: "Your first step into IEEE CIS starts here.",
     registrationFormUrl: "https://forms.gle/TyuuWPtu5qXjkBf27",
-    // Fixed countdown target: 10:00 PM IST on August 18, 2026
-    targetYear: 2026,
+    // Fixed countdown target: 10:00 PM IST on Tuesday, August 18, 2026
     targetMonth: 8,   // August
     targetDay: 18,
     targetHour: 22,
@@ -262,7 +261,7 @@
 
   // ============ COUNTDOWN ============
   function getTargetDate() {
-    // Explicitly use IST (UTC+05:30), regardless of the visitor's timezone.
+    // Tuesday, August 18, 2026 at 10:00 PM IST (UTC+05:30)
     return new Date("2026-08-18T22:00:00+05:30");
   }
 
@@ -272,7 +271,7 @@
   targetLabel.textContent =
     "Counting down to " +
     targetDate.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" }) +
-    ", 10:00 PM IST";
+    ", 10:00 AM";
 
   const daysEl = document.getElementById("days");
   const hoursEl = document.getElementById("hours");
@@ -293,16 +292,12 @@
 
     if (diff <= 0) {
       clearInterval(intervalId);
-
-      // Keep the countdown at exactly 00:00:00:00 after the deadline.
       daysEl.textContent = "00";
       hoursEl.textContent = "00";
       minutesEl.textContent = "00";
       secondsEl.textContent = "00";
-
-      countdownEl.classList.add("hidden");
+      countdownEl.classList.remove("hidden");
       targetLabel.classList.add("hidden");
-      liveMessageEl.textContent = "Registrations Closed";
       liveMessageEl.classList.remove("hidden");
       return;
     }
